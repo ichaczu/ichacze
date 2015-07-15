@@ -1,0 +1,23 @@
+.container
+  .row
+    .col-md-9-offset-3
+      %table.table
+        %thead
+          %tr
+            %th= "Pożyczkobiorca"
+            %th= "Poręczyciel"
+            %th= "Kwota pożyczki"
+            %th= "Oprocentowanie"
+            %th= "Okres kredytowania"
+            %th= "Data zawarcia umowy"
+            %th= "Termin spłaty"
+        %tbody
+          - current_user.loans.each do |loan|
+            %tr
+              %td= link_to loan.borrower.personal_data, borrower_path(loan.borrower.id)
+              %td= link_to loan.guarantor.personal_data, guarantor_path(loan.guarantor.id)
+              %td= loan.amount
+              %td= loan.rate_of_interest
+              %td= loan.duration
+              %td= loan.formatted_start_date
+              %td= loan.formatted_end_date

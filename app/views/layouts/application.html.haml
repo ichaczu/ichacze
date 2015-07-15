@@ -9,6 +9,20 @@
     = stylesheet_link_tag :application, media: "all"
     = csrf_meta_tags
   %body{:class => body_class}
+    %nav.navbar.navbar-inverse
+      %div.container
+        %div.navbar-header
+          %a.navbar-brand= "Ichacze"
+        %div.collapse.navbar-collapse
+          %ul.nav.navbar-nav.navbar-right
+            - if current_user
+              %li= link_to "+Pożyczka", root_path
+              %li= link_to "Pożyczki", loans_path
+              %li= link_to "Poręczyciele", loans_path
+              %li= link_to "Pożyczkobiorcy", loans_path
+              %li= link_to "Wyloguj (#{current_user.email})", destroy_user_session_path, method: :delete
+            - else
+              %li= link_to "Zaloguj", new_user_session_path
     = render "flashes"
     = yield
     = render "javascript"
