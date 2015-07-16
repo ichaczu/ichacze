@@ -2,7 +2,7 @@
   .modal-dialog
     .modal-content
       .panel-heading
-        %h3.panel-title="Zaloguj się"
+        %h3.panel-title= "Zaloguj się"
       .panel-body
         = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
           .form-inputs

@@ -1,2 +1,16 @@
-%h1 Loans#new
-%p Find me in app/views/loans/new.html.haml
+.col-md-12
+  .modal-dialog
+    .modal-content
+      .panel-heading
+        %h3.panel-title= "Nowa pożyczka"
+      .panel-body
+        = simple_form_for @loan do |f|
+          .form-inputs
+            .form-group
+              = f.input :amount, label: 'Kwota pożyczki', autofocus: true, input_html: { class: 'form-control' }
+            .form-group
+              = f.input :duration, label: 'Okres kredytowania', input_html: { class: 'form-control' }
+            .form-group
+              = f.input :rate_of_interest, label: 'Stopa oprocentowania', input_html: { class: 'form-control', value: 8 }
+          .form-actions
+            = f.button :submit, "Utwórz", class: "btn btn-primary"
