@@ -1,6 +1,9 @@
 class Borrower < ActiveRecord::Base
   belongs_to :user
+  has_many :guarantors
   has_many :loans
+
+  validates_presence_of :first_name, :last_name, :address, :pesel, :id_series_number, :user_id
 
   def personal_data
     "#{first_name} #{last_name}"

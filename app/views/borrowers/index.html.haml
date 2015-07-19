@@ -7,15 +7,17 @@
             %th= "Imię"
             %th= "Nazwisko"
             %th= "Adres"
+            %th= 'PESEL'
             %th= "Seria i numer dowodu"
             %th= "Całkowita kwota pożyczek"
-            %th= "Pozostała kwota do zwrotu"
+            %th= "Pozostała kwota do spłaty"
         %tbody
           - @borrowers.each do |borrower|
             %tr
               %td= borrower.first_name
               %td= borrower.last_name
               %td= borrower.address
+              %td= borrower.pesel
               %td= borrower.id_series_number
               %td= borrower.total_borrowed_amount
               %td= borrower.total_unpaid_amount

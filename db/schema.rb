@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715191743) do
+ActiveRecord::Schema.define(version: 20150719122217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,12 +63,14 @@ ActiveRecord::Schema.define(version: 20150715191743) do
     t.integer  "guarantor_id"
     t.integer  "duration"
     t.integer  "amount"
-    t.integer  "rate_of_interest", default: 8
+    t.integer  "rate_of_interest",    default: 8
     t.datetime "end_date"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.integer  "amount_paid"
-    t.string   "status",           default: "unpaid"
+    t.string   "status",              default: "unpaid"
+    t.string   "place_of_conclusion"
+    t.datetime "day_of_conclusion"
   end
 
   add_index "loans", ["borrower_id"], name: "index_loans_on_borrower_id", using: :btree

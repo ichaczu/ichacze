@@ -2,15 +2,50 @@
   .modal-dialog
     .modal-content
       .panel-heading
-        %h3.panel-title= "Nowa pożyczka"
+        %h3.panel-title= "Nowa pożyczka gotówkowa"
       .panel-body
-        = simple_form_for @loan do |f|
+        = simple_form_for @loan, defaults: { input_html: { class: 'form-control' }, error_html: { class: 'has-error' } } do |l|
           .form-inputs
+            = l.simple_fields_for @borrower do |b|
+              %h3.panel-title= 'Pożyczkobiorca'
+              %br
+              .well.well-sm= 'Wprowadź jedynie PESEL dla istniejącego pożyczkobiorcy'
+              .form-group
+                = b.input :first_name, label: 'Imię'
+              .form-group
+                = b.input :last_name, label: 'Nazwisko'
+              .form-group
+                = b.input :address, label: 'Adres'
+              .form-group
+                = b.input :pesel, label: 'PESEL'
+              .form-group
+                = b.input :id_series_number, label: 'Numer i seria dowodu'
+              %hr
+            = l.simple_fields_for @guarantor do |g|
+              %h3.panel-title= 'Poręczyciel'
+              %br
+              .well.well-sm= 'Wprowadź jedynie PESEL dla istniejącego poręczyciela'
+              .form-group
+                = g.input :first_name, label: 'Imię'
+              .form-group
+                = g.input :last_name, label: 'Nazwisko'
+              .form-group
+                = g.input :address, label: 'Adres'
+              .form-group
+                = g.input :pesel, label: 'PESEL'
+              .form-group
+                = g.input :id_series_number, label: 'Numer i seria dowodu'
+              %hr
             .form-group
-              = f.input :amount, label: 'Kwota pożyczki', autofocus: true, input_html: { class: 'form-control' }
+              = l.input :amount, label: 'Kwota pożyczki (PLN)', autofocus: true, collection: @amount_array
             .form-group
-              = f.input :duration, label: 'Okres kredytowania', input_html: { class: 'form-control' }
+              = l.input :duration, label: 'Okres kredytowania (liczba miesięcy)', collection: 1..3
             .form-group
-              = f.input :rate_of_interest, label: 'Stopa oprocentowania', input_html: { class: 'form-control', value: 8 }
+              = l.input :rate_of_interest, label: 'Stopa oprocentowania', input_html: { value: @loan.rate_of_interest }
+            .form-group
+              = l.input :day_of_conclusion, label: 'Data podpisania umowy', as: :bootstrap_datepicker,
+                input_html: { onchange: 'setDateFromPicker(this)', value: @loan.day_of_conclusion.strftime('%d/%m/%Y') }
+            .form-group
+              = l.input :place_of_conclusion, label: 'Miejsce podpisania umowy'
           .form-actions
-            = f.button :submit, "Utwórz", class: "btn btn-primary"
+            = l.button :submit, "Utwórz", class: "btn btn-primary"

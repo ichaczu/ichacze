@@ -1,4 +1,13 @@
-en:
+pl:
+  errors:
+    messages:
+      blank: 'Pole nie może być puste'
+    duration:
+      too_long: 'Zbyt długi okres kredytowania dla wybranej kwoty'
+      invalid: 'Nieprawidłowy okres kredytowania dla wybranej kwoty'
+    pesel:
+      length: 'Nieprawidłowa ilość znaków'
+
   date:
     formats:
       default:

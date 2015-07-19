@@ -4,6 +4,7 @@ ruby "2.2.2"
 
 gem "airbrake"
 gem "autoprefixer-rails"
+gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem "coffee-rails", "~> 4.1.0"
 gem "delayed_job_active_record"
@@ -20,11 +21,13 @@ gem "pg"
 gem "pundit"
 gem "rack-canonical-host"
 gem "rails", "4.2.1"
+gem 'rails-i18n'
 gem "recipient_interceptor"
 gem "refills"
 gem "sass-rails", "~> 5.0"
 gem "simple_form"
 gem "title"
+gem "typhoeus"
 gem "uglifier"
 gem "unicorn"
 
