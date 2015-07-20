@@ -1,9 +1,10 @@
 class Borrower < ActiveRecord::Base
-  belongs_to :user
-  has_many :guarantors
   has_many :loans
 
-  validates_presence_of :first_name, :last_name, :address, :pesel, :id_series_number, :user_id
+  validates_presence_of :first_name, :last_name, :address, :pesel, :id_series_number
+  validate :pesel_length
+
+  scope :with_active_loans, -> { includes(:loans).where(loans: { status: Loan::UNPAID }) }
 
   def personal_data
     "#{first_name} #{last_name}"
@@ -15,5 +16,13 @@ class Borrower < ActiveRecord::Base
 
   def total_unpaid_amount
     total_borrowed_amount - loans.unpaid.sum(:amount_paid)
+  end
+
+  private
+
+  def pesel_length
+    if pesel.to_s.length != 11
+      errors.add(:pesel, I18n.t('errors.pesel.length'))
+    end
   end
 end

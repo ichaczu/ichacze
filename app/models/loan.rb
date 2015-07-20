@@ -1,16 +1,16 @@
 class Loan < ActiveRecord::Base
-  UNPAID = 'unpaid'
-  PAID = 'paid'
+  UNPAID = :unpaid
+  PAID = :paid
 
   belongs_to :borrower
   belongs_to :guarantor
+  belongs_to :user
 
   validates_presence_of :amount, :rate_of_interest, :duration,
                         :day_of_conclusion, :place_of_conclusion,
-                        :guarantor_id, :borrower_id
+                        :guarantor_id, :borrower_id, :user_id
   validates_inclusion_of :duration, in: 1..3
   validates_inclusion_of :amount, in: 100..1000
-  validate :pesel_length
   validate :allowed_amount_to_duration
 
   scope :unpaid, -> { where(status: UNPAID) }
