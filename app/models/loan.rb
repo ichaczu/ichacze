@@ -8,7 +8,7 @@ class Loan < ActiveRecord::Base
 
   validates_presence_of :amount, :rate_of_interest, :duration,
                         :day_of_conclusion, :place_of_conclusion,
-                        :guarantor_id, :borrower_id, :user_id
+                        :guarantor_id, :borrower_id, :user_id, :end_date
   validates_inclusion_of :duration, in: 1..3
   validates_inclusion_of :amount, in: 100..1000
   validate :allowed_amount_to_duration

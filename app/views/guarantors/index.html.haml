@@ -1,2 +1,23 @@
-%h1 Guarantors#index
-%p Find me in app/views/guarantors/index.html.haml
+.container
+  .row
+    .col-md-9-offset-3
+      %table.table
+        %thead
+          %tr
+            %th= "Imię"
+            %th= "Nazwisko"
+            %th= "Adres"
+            %th= 'PESEL'
+            %th= "Seria i numer dowodu"
+            %th= "Całkowita kwota gwarancji"
+            %th= "Pozostała kwota gwarancji"
+        %tbody
+          - @guarantors.each do |guarantor|
+            %tr
+              %td= guarantor.first_name
+              %td= guarantor.last_name
+              %td= guarantor.address
+              %td= guarantor.pesel
+              %td= guarantor.id_series_number
+              %td= guarantor.total_guaranted_amount
+              %td= guarantor.total_unpaid_amount

@@ -20,7 +20,7 @@ gem "normalize-rails", "~> 3.0.0"
 gem "pg"
 gem "pundit"
 gem "rack-canonical-host"
-gem "rails", "4.2.1"
+gem "rails", "4.2.3"
 gem 'rails-i18n'
 gem "recipient_interceptor"
 gem "refills"

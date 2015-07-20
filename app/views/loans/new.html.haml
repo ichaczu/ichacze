@@ -11,7 +11,7 @@
               %br
               .well.well-sm= 'Wprowadź jedynie PESEL dla istniejącego pożyczkobiorcy'
               .form-group
-                = b.input :first_name, label: 'Imię'
+                = b.input :first_name, label: 'Imię', autofocus: true
               .form-group
                 = b.input :last_name, label: 'Nazwisko'
               .form-group
@@ -37,7 +37,7 @@
                 = g.input :id_series_number, label: 'Numer i seria dowodu'
               %hr
             .form-group
-              = l.input :amount, label: 'Kwota pożyczki (PLN)', autofocus: true, collection: @amount_array
+              = l.input :amount, label: 'Kwota pożyczki (PLN)', collection: @amount_array
             .form-group
               = l.input :duration, label: 'Okres kredytowania (liczba miesięcy)', collection: 1..3
             .form-group

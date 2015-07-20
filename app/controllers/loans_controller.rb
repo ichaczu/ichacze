@@ -22,15 +22,20 @@ class LoansController < ApplicationController
     @borrower = find_borrower_by_pesel_or_new
     @guarantor = find_guarantor_by_pesel_or_new
 
-    set_associations
+    calculate_loan_end_date
 
-    unless validate_loan_borrower_guarantor
+    unless borrower_and_guarantor_valid?
+      @loan.valid?
       render new_loan_path
+      return
     end
 
-    if @loan.save && @borrower.save && @guarantor.save
-      render loans_path
-    else
+    if @borrower.save && @guarantor.save
+      set_associations
+      if @loan.save
+        redirect_to loans_path
+        return
+      end
       render new_loan_path
     end
   end
@@ -40,11 +45,16 @@ class LoansController < ApplicationController
 
   private
 
+  def calculate_loan_end_date
+    if @loan.day_of_conclusion && @loan.duration
+      @loan.end_date = @loan.day_of_conclusion + @loan.duration.months
+    end
+  end
+
   def set_associations
     @loan.borrower = @borrower
-    @guarantor.borrower = @borrower
     @loan.guarantor = @guarantor
-    @borrower.user = current_user
+    @loan.user = current_user
   end
 
   def set_amount_array
@@ -75,9 +85,8 @@ class LoansController < ApplicationController
     @loan.day_of_conclusion.strftime('%d/%m/%Y')
   end
 
-  def validate_loan_borrower_guarantor
+  def borrower_and_guarantor_valid?
     all_valid = []
-    all_valid << @loan.valid?
     all_valid << @borrower.valid?
     all_valid << @guarantor.valid?
     if all_valid.uniq.length == 1 && all_valid.uniq.first
