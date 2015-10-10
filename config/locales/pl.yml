@@ -7,6 +7,7 @@ pl:
       invalid: 'Nieprawidłowy okres kredytowania dla wybranej kwoty'
     pesel:
       length: 'Nieprawidłowa ilość znaków'
+      type: 'Nieprawidłowe znaki w ciągu'
 
   date:
     formats:

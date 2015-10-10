@@ -17,19 +17,32 @@ class LoansController < ApplicationController
   def edit
   end
 
+  def pay_installment
+    loan = Loan.find_by_id(params[:id])
+    installment = loan.installments.find_by_order(installment_order)
+    installment.pay
+    loan.mark_if_paid
+    redirect_to loans_path
+  end
+
   def create
-    @loan = Loan.new(loan_params)
-    @borrower = find_borrower_by_pesel_or_new
-    @guarantor = find_guarantor_by_pesel_or_new
+    prepare_loan_borrower_guarantor
+    calculate_loan_end_date
 
-    set_associations
-
-    unless validate_loan_borrower_guarantor
+    unless borrower_and_guarantor_valid?
+      @loan.valid?
       render new_loan_path
+      return
     end
 
-    if @loan.save && @borrower.save && @guarantor.save
-      render loans_path
+    if save_borrower && save_guarantor
+      set_associations
+      if @loan.save
+        redirect_to loans_path
+        return
+      else
+        render new_loan_path
+      end
     else
       render new_loan_path
     end
@@ -40,11 +53,38 @@ class LoansController < ApplicationController
 
   private
 
+  def save_borrower
+    if @borrower.changed?
+      @borrower.save
+    else
+      true
+    end
+  end
+
+  def save_guarantor
+    if @guarantor.changed?
+      @borrower.save
+    else
+      true
+    end
+  end
+
+  def prepare_loan_borrower_guarantor
+    @loan = Loan.new(loan_params)
+    @borrower = find_borrower_by_pesel_or_new
+    @guarantor = find_guarantor_by_pesel_or_new
+  end
+
+  def calculate_loan_end_date
+    if @loan.day_of_conclusion && @loan.duration
+      @loan.end_date = @loan.day_of_conclusion + @loan.duration.months
+    end
+  end
+
   def set_associations
     @loan.borrower = @borrower
-    @guarantor.borrower = @borrower
     @loan.guarantor = @guarantor
-    @borrower.user = current_user
+    @loan.user = current_user
   end
 
   def set_amount_array
@@ -53,8 +93,10 @@ class LoansController < ApplicationController
 
   def find_borrower_by_pesel_or_new
     borrower = Borrower.find_by_pesel(borrower_params[:pesel])
+    @borrower_found = true
 
     unless borrower
+      @borrower_found = false
       borrower = Borrower.new(borrower_params)
     end
 
@@ -75,9 +117,8 @@ class LoansController < ApplicationController
     @loan.day_of_conclusion.strftime('%d/%m/%Y')
   end
 
-  def validate_loan_borrower_guarantor
+  def borrower_and_guarantor_valid?
     all_valid = []
-    all_valid << @loan.valid?
     all_valid << @borrower.valid?
     all_valid << @guarantor.valid?
     if all_valid.uniq.length == 1 && all_valid.uniq.first
@@ -85,6 +126,10 @@ class LoansController < ApplicationController
     else
       false
     end
+  end
+
+  def installment_order
+    params.fetch(:installment_index).to_i + 1
   end
 
   def loan_params
