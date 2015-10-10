@@ -63,7 +63,7 @@ class LoansController < ApplicationController
 
   def save_guarantor
     if @guarantor.changed? || @guarantor.new_record?
-      @borrower.save
+      @guarantor.save
     else
       true
     end
