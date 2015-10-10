@@ -11,31 +11,33 @@
               %br
               .well.well-sm= 'Wprowadź jedynie PESEL dla istniejącego pożyczkobiorcy'
               .form-group
-                = b.input :first_name, label: 'Imię', autofocus: true
+                = b.input :first_name, label: 'Imię', autofocus: true, disabled: @borrower_found
               .form-group
-                = b.input :last_name, label: 'Nazwisko'
+                = b.input :last_name, label: 'Nazwisko', disabled: @borrower_found
               .form-group
-                = b.input :address, label: 'Adres'
+                = b.input :address, label: 'Adres', disabled: @borrower_found
               .form-group
                 = b.input :pesel, label: 'PESEL'
               .form-group
-                = b.input :id_series_number, label: 'Numer i seria dowodu'
+                = b.input :id_series_number, label: 'Numer i seria dowodu', disabled: @borrower_found
               %hr
             = l.simple_fields_for @guarantor do |g|
               %h3.panel-title= 'Poręczyciel'
               %br
               .well.well-sm= 'Wprowadź jedynie PESEL dla istniejącego poręczyciela'
               .form-group
-                = g.input :first_name, label: 'Imię'
+                = g.input :first_name, label: 'Imię', disabled: @guarantor_found
               .form-group
-                = g.input :last_name, label: 'Nazwisko'
+                = g.input :last_name, label: 'Nazwisko', disabled: @guarantor_found
               .form-group
-                = g.input :address, label: 'Adres'
+                = g.input :address, label: 'Adres', disabled: @guarantor_found
               .form-group
                 = g.input :pesel, label: 'PESEL'
               .form-group
-                = g.input :id_series_number, label: 'Numer i seria dowodu'
+                = g.input :id_series_number, label: 'Numer i seria dowodu', disabled: @guarantor_found
               %hr
+              %h3.panel-title= 'Pożyczka'
+              %br
             .form-group
               = l.input :amount, label: 'Kwota pożyczki (PLN)', collection: @amount_array
             .form-group

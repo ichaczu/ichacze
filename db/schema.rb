@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150720183333) do
+ActiveRecord::Schema.define(version: 20151010145142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,20 @@ ActiveRecord::Schema.define(version: 20150720183333) do
     t.datetime "updated_at",       null: false
   end
 
+  create_table "installments", force: :cascade do |t|
+    t.integer  "loan_id"
+    t.integer  "amount"
+    t.string   "status",     default: "unpaid"
+    t.datetime "payday"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.datetime "monit_sent"
+    t.datetime "paid_at"
+    t.integer  "order"
+  end
+
+  add_index "installments", ["loan_id"], name: "index_installments_on_loan_id", using: :btree
+
   create_table "loans", force: :cascade do |t|
     t.integer  "borrower_id"
     t.integer  "guarantor_id"
@@ -90,6 +104,7 @@ ActiveRecord::Schema.define(version: 20150720183333) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "installments", "loans"
   add_foreign_key "loans", "borrowers"
   add_foreign_key "loans", "guarantors"
   add_foreign_key "loans", "users"
