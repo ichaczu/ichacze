@@ -91,7 +91,7 @@ class Loan < ActiveRecord::Base
   def add_installments
     installment_amount = amount * 0.5
     (1..duration).each do |i|
-      installments.create(amount: installment_amount, payday: Time.current + i.months, order: i)
+      installments.create(amount: installment_amount, payday: day_of_conclusion + i.months, order: i)
     end
   end
 
