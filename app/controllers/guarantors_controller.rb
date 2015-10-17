@@ -1,6 +1,6 @@
 class GuarantorsController < ApplicationController
   def index
-    @guarantors = Guarantors.all
+    @guarantors = Guarantor.all
   end
 
   def show
