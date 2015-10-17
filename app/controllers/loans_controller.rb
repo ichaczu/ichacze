@@ -21,6 +21,7 @@ class LoansController < ApplicationController
     loan = Loan.find_by_id(params[:id])
     installment = loan.installments.find_by_order(installment_order)
     installment.pay
+    installment.invalidate_monits
     loan.mark_if_paid
     redirect_to loans_path
   end

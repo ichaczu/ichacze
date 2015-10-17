@@ -21,6 +21,13 @@ class Installment < ActiveRecord::Base
     self.save
   end
 
+  def invalidate_monits
+    monits.each do |monit|
+      monit.active = false
+      monit.save
+    end
+  end
+
   def unpaid_due
     if payday < Time.current && status == "unpaid"
       true

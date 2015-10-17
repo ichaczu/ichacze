@@ -3,7 +3,7 @@ class BorrowersController < ApplicationController
   end
 
   def index
-    @borrowers = current_user.borrowers
+    @borrowers = Borrower.all
   end
 
   def edit

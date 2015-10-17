@@ -1,6 +1,6 @@
 class GuarantorsController < ApplicationController
   def index
-    @guarantors = current_user.guarantors
+    @guarantors = Guarantors.all
   end
 
   def show
