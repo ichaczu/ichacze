@@ -46,8 +46,20 @@ class Loan < ActiveRecord::Base
     end
   end
 
+
+  def upcoming_payment_date
+    unpaid_installments = installments.unpaid.pluck(:payday).sort
+    if unpaid_installments.present?
+      unpaid_installments.first
+    else
+      installments.last.payday
+    end
+  end
+
   def loan_status
     if status == "unpaid" && installments.where("monit_sent IS NOT NULL").present?
+      "danger"
+    elsif status == "unpaid" && installments.due.present?
       "danger"
     elsif status == "unpaid" && installments.upcoming.present?
       "warning"

@@ -33,7 +33,8 @@ class Monit < ActiveRecord::Base
   def dept_collection_in
     collection_date = ((created_at + 14.days).to_date - Time.current.to_date).to_i
     if last_visit_at
-      "wizyta odbyła się: #{last_visit_at.strftime('%d/%m/%Y')}"
+      visit_date = visits.first.date_of_visit
+      "wizyta odbyła się: #{visit_date.strftime('%d/%m/%Y')}"
     elsif collection_date < 0 && !last_visit_at
       "Minęło ponad 14 dni od wysłania monitu!"
     elsif collection_date == 0

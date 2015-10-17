@@ -10,6 +10,7 @@ class Installment < ActiveRecord::Base
 
   scope :unpaid, -> { where(status: UNPAID) }
   scope :upcoming, -> { where("payday <= ? AND status = 'unpaid'", 3.days.from_now) }
+  scope :due, -> { where("payday <= ?", Time.current) }
 
   def formatted_payday
     payday.strftime('%d/%m/%Y')
@@ -41,7 +42,11 @@ class Installment < ActiveRecord::Base
       if monit_sent
         "monit wysłany (#{monit_sent.strftime('%d/%m/%Y')})"
       else
-        "x"
+        if payday <= Time.current
+          "minął termin wpłaty"
+        else
+          "x"
+        end
       end
     else
       "zapłacono #{(amount)}: #{paid_at.strftime('%d/%m/%Y')}"

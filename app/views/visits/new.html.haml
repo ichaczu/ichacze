@@ -7,7 +7,7 @@
         = simple_form_for @visit, defaults: { input_html: { class: 'form-control' }, error_html: { class: 'has-error' } } do |v|
           .form-inputs
             = v.input :date_of_visit, label: 'Data wizyty w terenie', as: :bootstrap_datepicker,
-                input_html: { onchange: 'setDateFromPicker(this)', value: @visit.date_of_visit.strftime('%d/%m/%Y') }
+                input_html: { onchange: 'setDateFromPickerVisit(this)', value: @visit.date_of_visit.strftime('%d/%m/%Y') }
           .form-inputs
             = v.hidden_field :monit_id, value: @monit_id
           .form-actions

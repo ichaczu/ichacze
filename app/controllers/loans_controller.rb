@@ -2,6 +2,7 @@ class LoansController < ApplicationController
   before_action :set_amount_array, only: [:new, :create]
 
   def index
+    @loans = Loan.all.sort_by(&:upcoming_payment_date)
   end
 
   def show
@@ -135,7 +136,7 @@ class LoansController < ApplicationController
 
   def loan_params
     loan_params_hash = params.require(:loan).except(:borrower).except(:guarantor).
-      permit(:amount, :duration, :rate_of_interest, :day_of_conclusion, :place_of_conclusion)
+      permit(:amount, :duration, :rate_of_interest, :day_of_conclusion, :place_of_conclusion, :id_number)
     day_of_conclusion = loan_params_hash[:day_of_conclusion].to_time
     loan_params_hash.update(day_of_conclusion: day_of_conclusion)
   end

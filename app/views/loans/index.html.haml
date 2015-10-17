@@ -26,7 +26,7 @@
             %td= "2 rata"
             %td= "3 rata"
             %td= "3 rata"
-          - current_user.loans.each do |loan|
+          - @loans.each do |loan|
             %tr{class: loan.loan_status}
               %td= link_to loan.borrower.personal_data, borrower_path(loan.borrower.id)
               %td= loan.formatted_day_of_conclusion
