@@ -1,0 +1,14 @@
+.col-md-12
+  .modal-dialog
+    .modal-content
+      .panel-heading
+        %h3.panel-title= "Dodaj wizytę w terenie"
+      .panel-body
+        = simple_form_for @visit, defaults: { input_html: { class: 'form-control' }, error_html: { class: 'has-error' } } do |v|
+          .form-inputs
+            = v.input :date_of_visit, label: 'Data wizyty w terenie', as: :bootstrap_datepicker,
+                input_html: { onchange: 'setDateFromPicker(this)', value: @visit.date_of_visit.strftime('%d/%m/%Y') }
+          .form-inputs
+            = v.hidden_field :monit_id, value: @monit_id
+          .form-actions
+            = v.button :submit, "Utwórz", class: "btn btn-primary"

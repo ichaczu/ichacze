@@ -10,6 +10,7 @@
             %th= "Pierwsza wizyta windykacyjna za"
             %th= "Ostatnia wizyta"
             %th= "Następna wizyta za"
+            %th= ""
         %tbody
           - @monits.each do |monit|
             %tr{class: monit.days_to_dept_collection_status}
@@ -19,3 +20,4 @@
               %td= monit.dept_collection_in
               %td= monit.last_visit_formatted
               %td= monit.next_visit_in
+              %td= link_to 'Dodaj wizytę', new_visit_path(monit_id: monit.id)

@@ -1,5 +1,6 @@
 class Monit < ActiveRecord::Base
   belongs_to :installment
+  has_many :visits
 
   def borrower_data
     installment.loan.borrower.personal_data
