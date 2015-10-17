@@ -2,7 +2,8 @@ class LoansController < ApplicationController
   before_action :set_amount_array, only: [:new, :create]
 
   def index
-    @loans = Loan.all.sort_by(&:upcoming_payment_date)
+    @loans_unpaid = Loan.unpaid.sort_by(&:upcoming_payment_date)
+    @loans_paid = Loan.paid.sort_by(&:upcoming_payment_date)
   end
 
   def show

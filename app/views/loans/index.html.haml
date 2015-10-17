@@ -1,5 +1,8 @@
 .container
   .row
+    %hr
+    %h2= "Do Spłaty"
+    %hr
     .col-md-9-offset-3
       %table.table.table-condensed
         %thead
@@ -28,7 +31,69 @@
             %td= "2 rata"
             %td= "3 rata"
             %td= "3 rata"
-          - @loans.each do |loan|
+          - @loans_unpaid.each do |loan|
+            %tr{class: loan.loan_status}
+              %td= link_to loan.borrower.personal_data, borrower_path(loan.borrower.id)
+              %td= loan.formatted_day_of_conclusion
+              %td
+                = link_to 'PDF', documents_download_path(id: loan.id, file_format: 'pdf', pesel: loan.borrower.pesel)
+                = "|"
+                = link_to 'ODT', documents_download_path(id: loan.id, file_format: 'odt', pesel: loan.borrower.pesel)
+              %td= "#{loan.amount} (#{loan.return_amount})"
+              %td= loan.duration
+              %td= loan.installment_payday(0)
+              %td
+                = loan.installment_status(0)
+                - unless loan.installment_paid?(0)
+                  = link_to 'Spłać', pay_installment_loan_path(id: loan.id, installment_index: 0), data: { confirm: "Spłacić?" }
+                - if loan.installment_unpaid_due(0)
+                  = link_to 'Wyślij monit', monits_path(loan_id: loan.id, installment_index: 1), method: :post, data: { confirm: "Wysłać monit?" }
+              %td= loan.installment_payday(1)
+              %td
+                = loan.installment_status(1)
+                - unless loan.installment_paid?(1)
+                  = link_to 'Spłać', pay_installment_loan_path(id: loan.id, installment_index: 1), data: { confirm: "Spłacić?" }
+                - if loan.installment_unpaid_due(1)
+                  = link_to 'Wyślij monit', monits_path(loan_id: loan.id, installment_index: 1), method: :post, data: { confirm: "Wysłać monit?" }
+              %td= loan.installment_payday(2)
+              %td
+                = loan.installment_status(2)
+                - unless loan.installment_paid?(2)
+                  = link_to 'Spłać', pay_installment_loan_path(id: loan.id, installment_index: 2), data: { confirm: "Spłacić?" }
+                - if loan.installment_unpaid_due(2)
+                  = link_to 'Wyślij monit', monits_path(loan_id: loan.id, installment_index: 1), method: :post, data: { confirm: "Wysłać monit?" }
+    %hr
+    %h2= "Spłacone"
+    %hr
+    .col-md-9-offset-3
+      %table.table.table-condensed
+        %thead
+          %tr
+            %th= 'Pożyczkobiorca'
+            %th= 'Data zawarcia umowy'
+            %th= 'Umowa'
+            %th{width: 100}= 'Kwota netto'
+            %th= 'Okres'
+            %th= 'Dzień wpłaty'
+            %th= 'Wpłata'
+            %th= 'Dzień wpłaty'
+            %th= 'Wpłata'
+            %th= 'Dzień wpłaty'
+            %th= 'Wpłata'
+        %tbody
+          %tr
+            %td= ""
+            %td= ""
+            %td= ""
+            %td= ""
+            %td= ""
+            %td= "1 rata"
+            %td= "1 rata"
+            %td= "2 rata"
+            %td= "2 rata"
+            %td= "3 rata"
+            %td= "3 rata"
+          - @loans_paid.each do |loan|
             %tr{class: loan.loan_status}
               %td= link_to loan.borrower.personal_data, borrower_path(loan.borrower.id)
               %td= loan.formatted_day_of_conclusion
