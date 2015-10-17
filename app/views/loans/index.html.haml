@@ -6,6 +6,7 @@
           %tr
             %th= 'Pożyczkobiorca'
             %th= 'Data zawarcia umowy'
+            %th= 'Umowa'
             %th{width: 100}= 'Kwota netto'
             %th= 'Okres'
             %th= 'Dzień wpłaty'
@@ -20,6 +21,7 @@
             %td= ""
             %td= ""
             %td= ""
+            %td= ""
             %td= "1 rata"
             %td= "1 rata"
             %td= "2 rata"
@@ -30,6 +32,10 @@
             %tr{class: loan.loan_status}
               %td= link_to loan.borrower.personal_data, borrower_path(loan.borrower.id)
               %td= loan.formatted_day_of_conclusion
+              %td
+                = link_to 'PDF', documents_download_path(id: loan.id, file_format: 'pdf', pesel: loan.borrower.pesel)
+                = "|"
+                = link_to 'ODT', documents_download_path(id: loan.id, file_format: 'odt', pesel: loan.borrower.pesel)
               %td= "#{loan.amount} (#{loan.return_amount})"
               %td= loan.duration
               %td= loan.installment_payday(0)

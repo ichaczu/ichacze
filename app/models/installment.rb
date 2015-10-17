@@ -3,7 +3,7 @@ class Installment < ActiveRecord::Base
   PAID = :paid
 
   belongs_to :loan
-  has_many :monits
+  has_many :monits, dependent: :destroy
 
   validates_presence_of :payday, :amount, :status, :order
   validates_inclusion_of :order, in: 1..3

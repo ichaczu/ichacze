@@ -52,7 +52,11 @@ class Loan < ActiveRecord::Base
     if unpaid_installments.present?
       unpaid_installments.first
     else
-      installments.last.payday
+      if installments.last
+        installments.last.payday
+      else
+        created_at + duration.months
+      end
     end
   end
 

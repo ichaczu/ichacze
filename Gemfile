@@ -3,6 +3,7 @@ source "https://rubygems.org"
 ruby "2.2.2"
 
 gem "airbrake"
+gem "rest-client"
 gem "autoprefixer-rails"
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass', '~> 3.3.5'
