@@ -3,6 +3,7 @@ class Installment < ActiveRecord::Base
   PAID = :paid
 
   belongs_to :loan
+  has_many :monits
 
   validates_presence_of :payday, :amount, :status, :order
   validates_inclusion_of :order, in: 1..3
@@ -18,6 +19,14 @@ class Installment < ActiveRecord::Base
     self.status = "paid"
     self.paid_at = Time.current
     self.save
+  end
+
+  def unpaid_due
+    if payday < Time.current && status == "unpaid"
+      true
+    else
+      false
+    end
   end
 
   def formatted_status

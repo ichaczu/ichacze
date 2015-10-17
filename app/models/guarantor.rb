@@ -10,11 +10,11 @@ class Guarantor < ActiveRecord::Base
   end
 
   def total_guaranted_amount
-    loans.unpaid.sum(:amount)
+    loans.sum(:amount)
   end
 
   def total_unpaid_amount
-    total_guaranted_amount - loans.unpaid.sum(:amount_paid)
+    total_guaranted_amount - loans.includes(:installments).where(installments: { status: "paid" }).sum('installments.amount')
   end
 
   private

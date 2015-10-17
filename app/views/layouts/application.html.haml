@@ -17,6 +17,7 @@
           %ul.nav.navbar-nav.navbar-right
             - if current_user
               %li= link_to "+Pożyczka", new_loan_path
+              %li= link_to "Monity & Windykacja", monits_path
               %li= link_to "Pożyczki", loans_path
               %li= link_to "Pożyczkobiorcy", borrowers_path
               %li= link_to "Poręczyciele", guarantors_path

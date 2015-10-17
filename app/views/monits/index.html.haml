@@ -1,0 +1,21 @@
+.container
+  .row
+    .col-md-9-offset-3
+      %table.table
+        %thead
+          %tr
+            %th= "Pożyczkobiorca"
+            %th= "Rata z monitem"
+            %th= "Data pierwszej wizyty windykacyjnej"
+            %th= "Pierwsza wizyta windykacyjna za"
+            %th= "Ostatnia wizyta"
+            %th= "Następna wizyta za"
+        %tbody
+          - @monits.each do |monit|
+            %tr{class: monit.days_to_dept_collection_status}
+              %td= monit.borrower_data
+              %td= monit.unpaid_installment_order
+              %td= monit.dept_collection_date
+              %td= monit.dept_collection_in
+              %td= monit.last_visit_formatted
+              %td= monit.next_visit_in

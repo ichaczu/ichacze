@@ -39,6 +39,8 @@
               %h3.panel-title= 'Pożyczka'
               %br
             .form-group
+              = l.input :id_number, label: 'Numer umowy'
+            .form-group
               = l.input :amount, label: 'Kwota pożyczki (PLN)', collection: @amount_array
             .form-group
               = l.input :duration, label: 'Okres kredytowania (liczba miesięcy)', collection: 1..3

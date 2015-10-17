@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151010145142) do
+ActiveRecord::Schema.define(version: 20151017135526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,11 +80,22 @@ ActiveRecord::Schema.define(version: 20151010145142) do
     t.string   "place_of_conclusion"
     t.datetime "day_of_conclusion"
     t.integer  "user_id"
+    t.string   "id_number"
   end
 
   add_index "loans", ["borrower_id"], name: "index_loans_on_borrower_id", using: :btree
   add_index "loans", ["guarantor_id"], name: "index_loans_on_guarantor_id", using: :btree
   add_index "loans", ["user_id"], name: "index_loans_on_user_id", using: :btree
+
+  create_table "monits", force: :cascade do |t|
+    t.integer  "installment_id"
+    t.boolean  "active"
+    t.datetime "last_visit_at"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "monits", ["installment_id"], name: "index_monits_on_installment_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -108,4 +119,5 @@ ActiveRecord::Schema.define(version: 20151010145142) do
   add_foreign_key "loans", "borrowers"
   add_foreign_key "loans", "guarantors"
   add_foreign_key "loans", "users"
+  add_foreign_key "monits", "installments"
 end

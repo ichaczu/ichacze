@@ -9,12 +9,14 @@ class Loan < ActiveRecord::Base
 
   validates_presence_of :amount, :rate_of_interest, :duration,
                         :day_of_conclusion, :place_of_conclusion,
-                        :guarantor_id, :borrower_id, :user_id, :end_date
+                        :guarantor_id, :borrower_id, :user_id, :end_date,
+                        :id_number
   validates_inclusion_of :duration, in: 1..3
   validates_inclusion_of :amount, in: 100..1000
   validate :allowed_amount_to_duration
 
   scope :unpaid, -> { where(status: UNPAID) }
+  scope :paid, -> { where(status: PAID) }
   after_create :add_installments
 
   def borrower_personal_data
@@ -67,7 +69,19 @@ class Loan < ActiveRecord::Base
         true
       end
     end
+  end
 
+  def installment_unpaid_due(index)
+    if index > installments.count - 1
+      false
+    else
+      installment = installments.find_by_order(index + 1)
+      if installment.unpaid_due
+        true
+      else
+        false
+      end
+    end
   end
 
   def installment_payday(index)

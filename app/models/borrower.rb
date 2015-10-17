@@ -12,11 +12,11 @@ class Borrower < ActiveRecord::Base
   end
 
   def total_borrowed_amount
-    loans.unpaid.sum(:amount)
+    loans.sum(:amount)
   end
 
   def total_unpaid_amount
-    total_borrowed_amount - loans.unpaid.sum(:amount_paid)
+    total_borrowed_amount - loans.includes(:installments).where(installments: { status: "paid" }).sum('installments.amount')
   end
 
   private
